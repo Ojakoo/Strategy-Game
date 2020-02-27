@@ -6,7 +6,7 @@ import gui
 def main():
     game = game_loader.Load_Game("save_file.txt")
     app = QApplication(sys.arg)
-    gi = gui.GUI(Game)
+    gui_game = gui.GUI(game)
 
     sys.exit(app.exec_())
 

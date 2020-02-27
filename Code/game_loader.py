@@ -8,20 +8,13 @@ def Load_Game(save_file):
 
     file = open(save_file)
 
-    line = file.readline().strip("\n").split(",")
+    gamedata = file.readline().strip("\n").split(",")    #general gamedata
+    player_list = []    #list of players and data
+    typemap = []        #matrix of map tiles and types
+    unit_list = []      #list of units
 
-    gamedata = [] #general gamedata
-    player_list = [] #list of players and data
-    typemap = [] #matrix of map tiles and types
-    unit_list = [] #list of units
-
-    for line in file:
-        line = line.strip("\n")
-
-        if line == '#':
-            break
-        else:
-            player_list.append(line.split(","))
+    # view gamedata
+    print("gamedata:\n", gamedata)
 
     for line in file:
         line = line.strip("\n")
@@ -29,8 +22,24 @@ def Load_Game(save_file):
         if line == '#':
             break
         else:
-            typemap.append(line.split(","))
+            player_list.append(line.split(",")) # append player information
 
+    # view collected player data
+    print("player data:\n", player_list)
+
+    for line in file:
+        line = line.strip("\n")
+
+        if line == '#':
+            break
+        else:
+            typemap.append(line.split(",")) # append level data
+
+    #view typemap read
+    print("typemap read:\n", typemap)
+
+    
+    
     for line in file:
         line = line.strip("\n")
 
@@ -41,7 +50,9 @@ def Load_Game(save_file):
             #unitdata.append(line.split(","))
 
     game = Game(gamedata)
-
+    
+    print("works")
+    
     #Set players
 
     for playerdata in player_list:

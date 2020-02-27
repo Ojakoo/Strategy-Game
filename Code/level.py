@@ -3,15 +3,19 @@ from tile import Tile
 class Level():
     def __init__(self, game, typemap):
         self.game = game
-
+        self.typemap = typemap
+        self.units = {}
+        
         height = len(typemap)
         width = len(typemap[0])
 
-        self.map = [None] * height
-        for h in typemap:
-            self.map[h] = [None] * width
-            for w in typemap[h]:
+        self.map = [ [None for i in range(width)] for j in range(height)]
+
+        for h in range(height):
+            for w in range(width):
                 tile_type = typemap[h][w]
                 self.map[h][w] = Tile(tile_type, h, w)
 
-        self.units = {}
+        print(self.map)
+
+        
