@@ -37,8 +37,6 @@ def Load_Game(save_file):
 
     #view typemap read
     print("typemap read:\n", typemap)
-
-    
     
     for line in file:
         line = line.strip("\n")
