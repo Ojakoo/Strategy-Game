@@ -9,8 +9,8 @@ class Unit():
         self.type = unit_type
         self.player = None
         self.pos = None #(w, h) double
-        self.hp = typedict_unit[type][0]
-        self.ap = typedict_unit[type][1]
+        self.hp = typedict_unit[unit_type][0]
+        self.ap = typedict_unit[unit_type][1]
 
     def set_pos(self, h, w):
         self.pos = (h, w)

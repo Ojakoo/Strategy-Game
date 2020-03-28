@@ -1,3 +1,5 @@
+
+# tile init data
 typedict_tile = {
     'p' : [],
     'm' : [],
