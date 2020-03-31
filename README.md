@@ -1,8 +1,8 @@
 # Strategiapeli 2020
 
 1. What properties have you already implemented into your project?
-    - Loading and saving from file and most of the basic structures are implemented so following 
-      steps are to get the gui working and implementing most of the game mechanics
+  - Loading and saving from file and most of the basic structures are implemented so following 
+    steps are to get the gui working and implementing most of the game mechanics
 
 2. Instructions
    - Is it possible to run the program already? (yes/no)
