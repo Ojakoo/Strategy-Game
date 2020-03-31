@@ -1,11 +1,11 @@
 # function for generating new save file from game object
 
 def Save_Game(game):
+
     file = open("new_save_file.txt", "w")
 
-
     file.write( str(game.turn_num) + "," + str(game.turn_player) + "\n" )
-    
+
     for player in game.players:
         file.write( player.name + "," + str(player.ai) + "," + str(player.color) + "," + str(player.gold) + "\n" )
 
@@ -33,6 +33,6 @@ def Save_Game(game):
 
     file.write("#")
 
-    print("Game succesfully saved.")
+    print("Game succesfully saved.\n")
 
     file.close

@@ -10,8 +10,8 @@ def main():
 
     print("game Object init successful")
     
-    print(game.players)
-    print(game.level.typemap)
+    print(game.players,"\n")
+    print(game.level.typemap,"\n")
 
     Save_Game(game)
 
