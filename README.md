@@ -5,7 +5,7 @@
     steps are to get the gui working and implementing most of the game mechanics
 
 2. Instructions
-   - Is it possible to run the program already? (yes/no)
+  - Is it possible to run the program already? (yes/no)
         - No, but you can run the test_load.py which tests game object creation from save_file and
           saving the game to new_save file 
   - How is the program executed?
