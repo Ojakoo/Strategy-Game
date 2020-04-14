@@ -1,3 +1,6 @@
+
+# storing init data and 
+
 typedict_unit = {
     0 : [10,3],
     1 : [5,3]
