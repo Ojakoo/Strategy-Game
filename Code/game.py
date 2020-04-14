@@ -1,4 +1,3 @@
-from player import Player
 
 class Game():
     def __init__(self, data):
@@ -7,9 +6,8 @@ class Game():
         self.turn_num = data[0]
         self.turn_player = data[1]
 
-    def set_level(self, level):
+    def set_level(self, level): 
         self.level = level
 
-    def set_player(self,player):
+    def set_player(self, player):
         self.players.append(player)
-

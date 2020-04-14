@@ -13,7 +13,7 @@ class Level():
         for h in range(height):
             for w in range(width):
                 tile_type = typemap[h][w]
-                self.map[h][w] = Tile(tile_type, h, w)
+                self.map[h][w] = Tile(tile_type, (h, w))
 
         # view map after generating
         #print("Map in Level:",self.map,"\n")
