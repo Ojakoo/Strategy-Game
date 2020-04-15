@@ -15,6 +15,8 @@ class Level():
                 tile_type = typemap[h][w]
                 self.map[h][w] = Tile(tile_type, (h, w))
 
+        print(self.map)
+
         # view map after generating
         #print("Map in Level:",self.map,"\n")
 

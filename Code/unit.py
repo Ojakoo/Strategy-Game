@@ -11,7 +11,7 @@ class Unit():
     def __init__(self, unit_type):
         self.type = unit_type
         self.player = None
-        self.pos = None #(w, h) double
+        self.pos = None #(h, w) double / (y x) because python list
         self.hp = typedict_unit[unit_type][0]
         self.ap = typedict_unit[unit_type][1]
 

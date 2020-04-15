@@ -8,18 +8,16 @@ class GITile(QGraphicsPixmapItem):
         super(GITile, self).__init__()
         self.tile = tile
 
-        h = self.square.location[0]
-        w = self.square.location[1]
+        h = self.tile.pos[0]
+        w = self.tile.pos[1]
         #tile_type = self.tile.type
 
-        self.rect.setOffset((64 * h), (64 * w))
+        self.setOffset((64 * w), (64 * h))
 
         #write function for fetching pixmap
         self.set_pixmap()
 
     def set_pixmap(self): 
         #set pixmap from resources
-        self.setPixmap(QPixmap('resourcer/tile_placeholder.png'))
+        self.setPixmap(QPixmap('resources/tile_placeholder.png'))
         
-    def mousePressEvent(self, *args, **kwargs):
-        pass

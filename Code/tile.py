@@ -11,7 +11,7 @@ typedict_tile = {
 class Tile():
     def __init__(self, tile_type, pos):
         self.type = tile_type
-        self.pos = pos #double
+        self.pos = pos #double (h, w)/ (y x) because python list
         self.unit = None
 
     def get_position(self):

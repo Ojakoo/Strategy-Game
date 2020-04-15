@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QPushButton, QStackedLayout, QListWidget, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QOptionTab, QWidget, QApplication, QPushButton, QStackedLayout, QListWidget, QVBoxLayout
 from PyQt5.QtCore import pyqtSignal
 
 # currently MainWindow main layout is Stack nut later stack can be immersed to
@@ -67,6 +67,10 @@ class MainWindow(QMainWindow):
         #Drop menu for maps
         #Player number choices, adds more of whats below
         #Player color choicem, human or ai choice
+        
+        self.cb = QComboBox()
+        self.cb.addItems([])
+        new_game_layout.addWidget(self.cb)
 
         self.btn_play = QPushButton("Play", self)
         self.btn_play.clicked.connect(self.play)
@@ -109,6 +113,8 @@ class MainWindow(QMainWindow):
     # handles change of page via handing display function with index i to caller
     # this is done because pyqt signals dont carry arguments to functions so instead we
     # make a function changin page to index i when make_display is called
+
+
 
     def make_display(self, i):
         def display():

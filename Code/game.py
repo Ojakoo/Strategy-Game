@@ -11,3 +11,12 @@ class Game():
 
     def set_player(self, player):
         self.players.append(player)
+
+    def all_units(self):
+        units = []
+
+        for player in self.players: 
+            for unit in player.units:
+                units.append(unit)
+
+        return units

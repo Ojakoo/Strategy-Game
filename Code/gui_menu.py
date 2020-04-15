@@ -1,19 +1,22 @@
 
-from PyQt5.QtWidgets import QMainWindow, QWidget, QApplication, QPushButton, QStackedLayout, QListWidget, QVBoxLayout
+from PyQt5.QtWidgets import QMainWindow, QWidget, QPushButton, QStackedLayout, QVBoxLayout, QComboBox
 from PyQt5.QtCore import pyqtSignal
+
+from os import listdir
+
+from game_loader import Load_Game
 
 # currently MainWindow main layout is Stack nut later stack can be immersed to
 # another layout and have that layout be the "theme" of Main menu where
 
 class MainWindow(QMainWindow):
 
-    switch_window = pyqtSignal()
+    switch_window = pyqtSignal(object) # siganl defined as object type as MainWindow carries game to GameWindow
 
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        self.close()
-
+        self.chosen_file = None
         #these widgets are used as pages for the main menu
         self.Menu = QWidget()
         self.New_Game = QWidget()
@@ -67,6 +70,11 @@ class MainWindow(QMainWindow):
         #Player number choices, adds more of whats below
         #Player color choicem, human or ai choice
 
+        self.cb_new = QComboBox()
+        self.cb_new.addItems(self.get_filenames('mapfiles'))
+        self.cb_new.activated[str].connect(self.change_file_new)
+        new_game_layout.addWidget(self.cb_new)
+
         self.btn_play = QPushButton("Play", self)
         self.btn_play.clicked.connect(self.play)
         new_game_layout.addWidget(self.btn_play)
@@ -82,6 +90,11 @@ class MainWindow(QMainWindow):
 
         #Drop menu for save files
         #When save file selected play button appears
+      
+        self.cb_load = QComboBox()
+        self.cb_load.addItems(self.get_filenames('savefiles'))
+        self.cb_load.activated[str].connect(self.change_file_load)
+        load_game_layout.addWidget(self.cb_load)
 
         self.btn_play = QPushButton("Play", self)
         self.btn_play.clicked.connect(self.play)
@@ -108,12 +121,30 @@ class MainWindow(QMainWindow):
     # handles change of page via handing display function with index i to caller
     # this is done because pyqt signals dont carry arguments to functions so instead we
     # make a function changin page to index i when make_display is called
+    
+    def get_filenames(self, folder):
+        files = listdir(folder)
+        return files
 
     def make_display(self, i):
         def display():
             self.Stack.setCurrentIndex(i)
         return display
 
+    # change_file could be merged as one function
+
+    def change_file_new(self, file):
+        self.chosen_file = "mapfiles/" + file
+        print("file change", self.chosen_file)
+
+    def change_file_load(self, file):
+        self.chosen_file = "savefiles/" + file
+        print("file change", self.chosen_file)
+
     def play(self):
-        print("emit")
-        self.switch_window.emit()
+        if self.chosen_file == None:
+            pass # Error prevention implement notificcation or play button as not clickable
+        else:
+            self.game = Load_Game(self.chosen_file)
+            self.switch_window.emit(self.game)
++-

@@ -12,21 +12,21 @@ class GuiControl():
         pass
 
     def show_Menu(self):
-        self.menu = MainWindow()
-        self.menu.switch_window.connect(self.show_Game)
-        self.game.close()
-        self.menu.show()
+        self.menu_w = MainWindow()
+        self.menu_w.switch_window.connect(self.show_Game)
+        self.game_w.close()
+        self.menu_w.show()
 
-    def show_Game(self):
-        self.game = GameWindow()
-        self.game.switch_window.connect(self.show_Menu)
-        self.menu.close()
-        self.game.show()
+    def show_Game(self, game):
+        self.game_w = GameWindow(game)
+        self.game_w.switch_window.connect(self.show_Menu)
+        self.menu_w.close()
+        self.game_w.showFullScreen()
 
     def boot(self):
-        self.menu = MainWindow()
-        self.menu.switch_window.connect(self.show_Game)
-        self.menu.show()
+        self.menu_w = MainWindow()
+        self.menu_w.switch_window.connect(self.show_Game)
+        self.menu_w.show()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

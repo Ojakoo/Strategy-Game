@@ -10,9 +10,14 @@ class GIUnit(QGraphicsPixmapItem):
         self.unit = unit
 
         pos = self.unit.pos
-        unit_type = self.unit.type
 
-        self.setPixmap(QPixmap('resourcer/unit_placeholder.png'))
+        self.set_pixmap()
+        self.move(pos)
         
     def move(self, pos):
-        self.rect.setOffset((64 * pos[0]), (64 * pos[1]))
+        self.setOffset((64 * pos[1]), (64 * pos[0]))
+
+    def set_pixmap(self): 
+        #set pixmap from resources
+        #unit_type = self.unit.type # used in pixmap setting
+        self.setPixmap(QPixmap('resources/unit_placeholder.png'))
