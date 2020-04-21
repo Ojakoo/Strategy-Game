@@ -1,5 +1,7 @@
 # function for generating new save file from game object
 
+# currently not working due to changes to position storing in tile and unit
+
 def Save_Game(game):
 
     file = open("new_save_file.txt", "w")

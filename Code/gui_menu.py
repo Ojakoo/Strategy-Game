@@ -115,7 +115,6 @@ class MainWindow(QMainWindow):
         self.btn_menu = QPushButton("Back", self)
         self.btn_menu.clicked.connect(self.make_display(0))
         settings_layout.addWidget(self.btn_menu)
-        
         self.Settings.setLayout(settings_layout)
 
     # handles change of page via handing display function with index i to caller
@@ -147,4 +146,3 @@ class MainWindow(QMainWindow):
         else:
             self.game = Load_Game(self.chosen_file)
             self.switch_window.emit(self.game)
-+-

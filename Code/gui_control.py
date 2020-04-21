@@ -21,7 +21,8 @@ class GuiControl():
         self.game_w = GameWindow(game)
         self.game_w.switch_window.connect(self.show_Menu)
         self.menu_w.close()
-        self.game_w.showFullScreen()
+        self.game_w.show()
+        #self.game_w.showFullScreen()
 
     def boot(self):
         self.menu_w = MainWindow()
