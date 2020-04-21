@@ -14,7 +14,8 @@ class Game(QObject):
         self.turn_player = int(data[1])
 
         self.chosen_tile = None
-        self.movanle = None
+        self.movable = None
+        self.attackable = None
 
     def set_level(self, level): 
         self.level = level
@@ -49,7 +50,7 @@ class Game(QObject):
     def set_chosen(self, tile):
         self.chosen_tile = tile
 
-        if tile != None and tile.unit != None and tile.unit.player == self.players[self.turn_player]: # if owned unit get movable tiles 
+        if tile is not None and tile.unit is not None and tile.unit.player == self.players[self.turn_player]: # if owned unit get movable tiles 
             self.movable = self.level.get_movable(tile, tile.unit.ap)
             
             for a in self.movable:
@@ -59,15 +60,16 @@ class Game(QObject):
             self.attackable = self.level.get_attackable(tile.unit)
         else:
             self.movable = None
+            self.attackable = None
             
         self.chosen_change.emit()
 
     def chosen_tile_status(self):
-        if self.chosen_tile == None: # no chosen tile
+        if self.chosen_tile is None: # no chosen tile
             return 0
-        elif self.chosen_tile.unit == None: # chosen tile with no unit
+        elif self.chosen_tile.unit is None: # chosen tile with no unit
             return 1
-        elif self.chosen_tile.unit.player == self.players[self.turn_player]: # chosen tile with owned unit
+        elif self.chosen_tile.unit.player is self.players[self.turn_player]: # chosen tile with owned unit
             return 2
         else: # chosen tile with enemy unit
             return 3
@@ -101,7 +103,7 @@ class Game(QObject):
     def kill(self, unit):
         unit.set_status("Dead")
         
-        player.units.remove(unit)
+        unit.player.units.remove(unit)
         unit.tile.set_unit(None)
 
         self.gi_update.emit()
@@ -123,9 +125,9 @@ class Game(QObject):
             elif status == 1:
                 pass
             elif status == 2: # move / attack
-                if clicked_tile.unit == None:
+                if clicked_tile.unit is None:
                     self.move_unit(self.chosen_tile.unit, clicked_tile)
-                elif clicked_tile.unit != None:
+                elif clicked_tile.unit is not None:
                     self.attack(self.chosen_tile.unit, clicked_tile.unit)
             elif status == 3: 
                 pass

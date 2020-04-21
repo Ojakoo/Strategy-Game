@@ -1,7 +1,8 @@
-from tile import Tile
-from queue import PriorityQueue
 
+from queue import PriorityQueue
 from math import sqrt 
+
+from tile import Tile
 
 class Level():
     def __init__(self, game, typemap):
@@ -68,7 +69,7 @@ class Level():
                 cost_next = neighbour.mov_cost
                 pos_next = neighbour.pos
 
-                if visited[pos_next[0]][pos_next[1]][0] == False and self.map[pos_next[0]][pos_next[1]].unit == None: #check if called pos is visited and is not occupied if we can continue
+                if visited[pos_next[0]][pos_next[1]][0] == False and self.map[pos_next[0]][pos_next[1]].unit is None: #check if called pos is visited and is not occupied if we can continue
                     if cost + cost_next < ap: # if we would have ap left after move we will make new call, add pos to call_queue and mark as visited with mov cos
                         call_queue.put( (cost + cost_next, pos_next) )
                         visited[pos_next[0]][pos_next[1]] = (True, cost + cost_next)
@@ -88,7 +89,7 @@ class Level():
 
     def get_attackable(self, attacker):
         # does not currently take to account visibility of tiles
-        tile = attacker.tile
+        # tile = attacker.tile
         rng = attacker.rng
         
         attackable = []

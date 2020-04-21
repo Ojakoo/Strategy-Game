@@ -142,7 +142,6 @@ class MainWindow(QMainWindow):
 
     def play(self):
         if self.chosen_file == None:
-            pass # Error prevention implement notificcation or play button as not clickable
+            pass # Error prevention implement notification or play button as not clickable
         else:
-            self.game = Load_Game(self.chosen_file)
-            self.switch_window.emit(self.game)
+            self.switch_window.emit(Load_Game(self.chosen_file))

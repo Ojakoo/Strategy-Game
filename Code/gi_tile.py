@@ -1,7 +1,7 @@
 
 from PyQt5.QtWidgets import QGraphicsPixmapItem
-from PyQt5.QtGui import QPixmap, QPainter, QBrush, QPen, QColor
-from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 
 typedict_pixmap = {
     'p' : ['resources/plain.png'],

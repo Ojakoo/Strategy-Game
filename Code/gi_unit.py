@@ -2,8 +2,6 @@
 from PyQt5.QtWidgets import QGraphicsPixmapItem
 from PyQt5.QtGui import QPixmap
 
-import resources
-
 class GIUnit(QGraphicsPixmapItem):
 
     def __init__(self, unit):

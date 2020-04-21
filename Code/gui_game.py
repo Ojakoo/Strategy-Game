@@ -1,7 +1,6 @@
 
-from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGraphicsScene, QPushButton, QGraphicsView, QGraphicsRectItem, QLabel
-from PyQt5.QtCore import pyqtSignal, QTimer
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QGraphicsScene, QPushButton, QGraphicsView, QLabel
+from PyQt5.QtCore import pyqtSignal
 
 from gi_unit import GIUnit
 from gi_tile import GITile
@@ -128,10 +127,10 @@ class GameWindow(QMainWindow):
                 unit_gi.update()
 
     def update_chosen_data(self):
-        if self.game.chosen_tile != None:
+        if self.game.chosen_tile is not None:
             unit = self.game.chosen_tile.unit
 
-            if unit == None:
+            if unit is None:
                 self.lbl_hp.setText(None)
                 self.lbl_ap.setText(None)
                 self.lbl_arm.setText(None)
