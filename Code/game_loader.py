@@ -14,6 +14,7 @@ def Load_Game(save_file):
     player_list = []    #list of players and data
     typemap = []        #matrix of map tiles and types
     unit_list = []      #matrix of units each line contains unit data for one player
+    tile_states = []    #state matrix for tile_states differing from 0 (default state)
 
     # view gamedata
     #print("gamedata:\n", gamedata,"\n")
@@ -55,10 +56,27 @@ def Load_Game(save_file):
 
             # zip unit data to easy iterate later
             unit_list.append(x)
-                
-    
     # view unit_data:
-    #print("collected unit_list from save file:\n",unit_list ,"\n")
+    #print("collected unit_list from save file:\n",unit_list ,"\n")    
+            
+    for line in file :
+        line = line.strip("\n")
+
+        if line == '#':
+            break
+        else:
+            l = list(map(int, line.split(",")))
+
+            x = [ l[0] ]
+
+            for i in range(1, len(l), 2):  
+                x.append( l[i:i + 2] )
+
+            # zip unit data to easy iterate later
+            tile_states.append(x)
+
+    # tile_state view
+    print("collected tile_states:\n",tile_states,"\n")
 
     # all required data collected, close file
     file.close()
@@ -92,7 +110,15 @@ def Load_Game(save_file):
 
             #set unit to game and table
             player.set_unit(unit)
-            print(unit.type, unit.get_pos())
+            #print(unit.type, unit.get_pos())
+
+    for l in tile_states:
+        state = l[0]
+
+        for s in range(1, len(l)):
+            level.map[l[u][0]][l[u][1]].set_state(state)
+            if level.map[l[u][0]][l[u][1]].type == 'c':
+                game.set_player_castle(level.map[l[u][0]][l[u][1]])
 
     return game
 

@@ -5,6 +5,10 @@ class Game(QObject):
     turn_change = pyqtSignal()
     chosen_change = pyqtSignal()
     gi_update = pyqtSignal()
+    game_ui_view = pyqtSignal()
+    castle_view = pyqtSignal()
+    blacksmith_view = pyqtSignal()
+    village_view = pyqtSignal()
 
     def __init__(self, data):
         super(Game, self).__init__()
@@ -22,6 +26,11 @@ class Game(QObject):
 
     def set_player(self, player):
         self.players.append(player)
+
+    def set_player_castle(self, tile):
+        print("castle for player",tile.state - 1,"set")
+        player = self.players[tile.state - 1]
+        player.set_castle(tile)
 
     def next_turn(self):
         self.turn_player = self.turn_player + 1
@@ -86,19 +95,17 @@ class Game(QObject):
             self.set_chosen(new_tile)
 
             self.gi_update.emit()
-        
         else:
             print("cant move there")
 
     def attack(self, unit, target):
-        if target in self.attackable:
+        if target in self.attackable and unit.attacked is not True:
+            unit.attacked = True
             target.hp = target.hp - round(unit.dmg * ((100 - target.arm)/100) )
             if target.hp <= 0:
-                print("hp < 0 ")
                 self.kill(target)
-            print("attack with damage:",round(unit.dmg * ( (100 - target.arm)/100 ) ) ) 
         else:
-            print("not in attack range")
+            print("not in attack range or unit already attacked")
 
     def kill(self, unit):
         unit.set_status("Dead")
@@ -107,7 +114,6 @@ class Game(QObject):
         unit.tile.set_unit(None)
 
         self.gi_update.emit()
-
         
     def right_click_handler(self, clicked_tile):
         status = self.chosen_tile_status()
@@ -132,5 +138,15 @@ class Game(QObject):
             elif status == 3: 
                 pass
 
+    def tile_func_caller(self, tile):
+        tile_type = tile.type
 
+        if tile_type == 'c':
+            self.castle_view.emit()
+        elif tile_type == 'b':
+            self.blacksmith_view.emit()
+        elif tile_type ==  'v':
+            self.village_view.emit()
+        else:
+            self.game_ui_view.emit()
         

@@ -4,10 +4,12 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 
 typedict_pixmap = {
-    'p' : ['resources/plain.png'],
+    'p' : ['resources/plain.png','resources/tile_placeholder.png'],
     'm' : ['resources/mountain.png'],
-    'c' : ['resources/castle.png'],
-    'f' : ['resources/forest.png']
+    'f' : ['resources/forest.png'],
+    'c' : ['resources/tile_placeholder.png','resources/tile_placeholder.png','resources/tile_placeholder.png'],
+    'b' : ['resources/tile_placeholder.png'],
+    'v' : ['resources/tile_placeholder.png']
 }
 
 class GITile(QGraphicsPixmapItem):
@@ -27,7 +29,7 @@ class GITile(QGraphicsPixmapItem):
 
     def set_pixmap(self):
         #set pixmap from resources
-        self.setPixmap(QPixmap(typedict_pixmap[self.tile.type][0]))
+        self.setPixmap(QPixmap(typedict_pixmap[self.tile.type][self.tile.state]))
 
     # most map related user interaction is via tile due to units and other always being on tiles
     # this way all handling of map events can be done with one function
@@ -40,4 +42,6 @@ class GITile(QGraphicsPixmapItem):
             #self.highlight(event) #pitäis tää tunkkaa
             self.tile.level.game.set_chosen(self.tile)
 
+    def mouseDoubleClickEvent(self, event, *args, **kwarga):
+        self.tile.level.game.tile_func_caller(self.tile)
 

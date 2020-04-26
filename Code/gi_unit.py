@@ -22,7 +22,7 @@ class GIUnit(QGraphicsPixmapItem):
         self.setPixmap(QPixmap('resources/unit_placeholder.png'))
 
     # handles gi updates (move, statuses, etc)
-    def update(self):
+    def update_item(self):
         self.move(self.unit.tile.get_pos())
 
     def remove_unit_gi(self):

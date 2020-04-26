@@ -7,6 +7,10 @@ class Player():
         self.gold = data[3]
         self.game = game
         self.units = []
+        self.castle = None
+
+    def set_castle(self, castle_tile):
+        self.castle = castle_tile
 
     def get_name(self):
         return self.name

@@ -44,6 +44,8 @@ class MainWindow(QMainWindow):
     def init_Menu(self):
         menu_layout = QVBoxLayout()
 
+        
+
         self.btn_new_game = QPushButton("New Game", self)
         self.btn_new_game.clicked.connect(self.make_display(1))
         menu_layout.addWidget(self.btn_new_game)
