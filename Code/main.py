@@ -1,9 +1,6 @@
-
 import sys
-
 from PyQt5.QtWidgets import QApplication
 from gui_control import GuiControl
-
 
 def main():
     global app

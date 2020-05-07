@@ -7,9 +7,9 @@ typedict_pixmap = {
     'p' : ['resources/plain.png','resources/tile_placeholder.png'],
     'm' : ['resources/mountain.png'],
     'f' : ['resources/forest.png'],
-    'c' : ['resources/tile_placeholder.png','resources/tile_placeholder.png','resources/tile_placeholder.png'],
+    'c' : ['','resources/castle_blue.png','resources/castle_red.png'],
     'b' : ['resources/tile_placeholder.png'],
-    'v' : ['resources/tile_placeholder.png']
+    'v' : ['resources/village.png','resources/village_blue.png','resources/village_red']
 }
 
 class GITile(QGraphicsPixmapItem):

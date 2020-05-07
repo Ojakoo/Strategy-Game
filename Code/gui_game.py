@@ -28,21 +28,22 @@ class GameWindow(QMainWindow):
         self.CastleUI = QWidget()
         self.BlacksmithUI = QWidget()
         self.VillageUI = QWidget()
+        self.Game_End = QWidget()
         
-        policy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.GameUI.setSizePolicy(policy)
-        self.GameUI.setMaximumHeight(200)
+        self.UI_format()
 
         self.init_GameUI()
         self.init_CastleUI()
         self.init_BlacksmithUI()
         self.init_VillageUI()
+        self.init_Game_End()
 
         self.StackUI = QStackedLayout() #UI Stack and its components
         self.StackUI.addWidget(self.GameUI)
         self.StackUI.addWidget(self.CastleUI)
         self.StackUI.addWidget(self.BlacksmithUI)
         self.StackUI.addWidget(self.VillageUI)
+        self.StackUI.addWidget(self.Game_End)
 
         self.layout.addLayout(self.StackUI)
 
@@ -51,6 +52,25 @@ class GameWindow(QMainWindow):
         self.update_turn_data() # Update all needed functions game strats
 
         # self.setGeometry(0,0,1920,1080) # IMPLEMENT Settings, change window size, currently only fullscreen
+
+    def UI_format(self):
+        policy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        height = 200
+
+        self.GameUI.setSizePolicy(policy)
+        self.GameUI.setMaximumHeight(height)
+
+        self.CastleUI.setSizePolicy(policy)
+        self.CastleUI.setMaximumHeight(height)
+
+        self.BlacksmithUI.setSizePolicy(policy)
+        self.BlacksmithUI.setMaximumHeight(height)
+
+        self.VillageUI.setSizePolicy(policy)
+        self.VillageUI.setMaximumHeight(height)
+
+        self.Game_End.setSizePolicy(policy)
+        self.Game_End.setMaximumHeight(height)
 
     def init_Scene(self): # populate scene from self.game
 
@@ -70,7 +90,7 @@ class GameWindow(QMainWindow):
         units = self.game.all_units() # unit generation
 
         for unit in units:
-            obj = GIUnit(unit)
+            obj = GIUnit(unit, self.game.players.index(unit.player))
             self.scene.addItem(obj)  
 
         self.update_unitgi_list() #update units to list
@@ -136,26 +156,74 @@ class GameWindow(QMainWindow):
         layout_castle_ui = QHBoxLayout()
         self.CastleUI.setLayout(layout_castle_ui)
 
+        self.btn_buy_swordsman = QPushButton("Swordsman 100g", self)
+        self.btn_buy_swordsman.clicked.connect(self.make_spawn(0))
+        layout_castle_ui.addWidget(self.btn_buy_swordsman)
+
+        self.btn_buy_archer = QPushButton("Archer 150g", self)
+        self.btn_buy_archer.clicked.connect(self.make_spawn(1))
+        layout_castle_ui.addWidget(self.btn_buy_archer)
+
+        self.btn_buy_archer = QPushButton("Mage 200g", self)
+        self.btn_buy_archer.clicked.connect(self.make_spawn(2))
+        layout_castle_ui.addWidget(self.btn_buy_archer)
+
+        self.btn_back = QPushButton("Back", self)
+        self.btn_back.clicked.connect(self.make_display(0))
+        layout_castle_ui.addWidget(self.btn_back)
+
     def init_BlacksmithUI(self):
         layout_blacksmith_ui = QHBoxLayout()
         self.BlacksmithUI.setLayout(layout_blacksmith_ui)
+
+        self.btn_back = QPushButton("Back", self)
+        self.btn_back.clicked.connect(self.make_display(0))
+        layout_blacksmith_ui.addWidget(self.btn_back)
 
     def init_VillageUI(self):
         layout_village_ui = QHBoxLayout()
         self.VillageUI.setLayout(layout_village_ui)
 
+        self.btn_back = QPushButton("Back", self)
+        self.btn_back.clicked.connect(self.make_display(0))
+        layout_village_ui.addWidget(self.btn_back)
+
+    def init_Game_End(self):
+        layout_game_end = QVBoxLayout()
+        self.Game_End.setLayout(layout_game_end)
+
+        self.lbl_win_text = QLabel()
+        layout_game_end.addWidget(self.lbl_win_text)
+
+        self.btn_quit = QPushButton("Quit", self)
+        self.btn_quit.clicked.connect(self.quit)
+        layout_game_end.addWidget(self.btn_quit)
+
     def init_Signals(self): 
         self.game.chosen_change.connect(self.update_chosen_data)
         self.game.turn_change.connect(self.update_turn_data)
         self.game.gi_update.connect(self.update_gi)
-        self.game.castle_view.connect(self.ui_castle)
-        self.game.blacksmith_view.connect(self.ui_blacksmith)
-        self.game.village_view.connect(self.ui_village)
+        self.game.game_ui_view.connect(self.make_display(0))
+        self.game.castle_view.connect(self.make_display(1))
+        self.game.blacksmith_view.connect(self.make_display(2))
+        self.game.village_view.connect(self.make_display(3))
+        self.game.game_end.connect(self.display_game_end)
+        self.game.new_unit.connect(self.new_unit_gi)
+
+    def display_game_end(self):
+        player_name = self.game.winner.name
+        self.lbl_win_text.setText("Congratulations "+player_name+",you won!")
+        self.StackUI.setCurrentIndex(4)
 
     def make_display(self, i):
         def display():
             self.StackUI.setCurrentIndex(i)
         return display
+
+    def make_spawn(self, i):
+        def spawn():
+            self.game.spawn(i)
+        return(spawn)
 
     def update_unitgi_list(self):
         self.unitgi_list = []
@@ -164,12 +232,16 @@ class GameWindow(QMainWindow):
             if type(item) is GIUnit:
                 self.unitgi_list.append(item)
 
+    def new_unit_gi(self):
+        unit = self.game.spawn_tile.unit
+        obj = GIUnit(unit, self.game.turn_player)
+        self.scene.addItem(obj)
+        self.update_gi()
+
     def update_gi(self):
         self.update_unitgi_list()
 
         for unit_gi in self.unitgi_list:
-
-            print(unit_gi.unit.status)
 
             if unit_gi.unit.status == 'Dead':
                 self.scene.removeItem(unit_gi)
@@ -203,19 +275,10 @@ class GameWindow(QMainWindow):
     def update_turn_data(self):
         self.lbl_turn.setText( "Turn number: " + str(self.game.turn_num) )
         self.lbl_active_player.setText( "Active Player: " + self.game.players[self.game.turn_player].name ) 
-        self.lbl_gold.setText( "Gold:" + self.game.players[self.game.turn_player].gold )
+        self.lbl_gold.setText( "Gold:" + str(self.game.players[self.game.turn_player].gold) )
 
     def quit(self):
         self.switch_window.emit()
-
-    def ui_castle(self):
-        pass
-
-    def ui_blacksmith(self):
-        pass
-
-    def ui_village(self):
-        pass
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_A:
